@@ -1,0 +1,33 @@
+a. Harrison Tseng
+
+b. 4562153489 or tsenghar
+
+c. All parts are completed besides the extra credit
+
+d.
+-client.cpp : client file handles our client, prompts the user to login and once a successful login attemp, the client will be prompted again to give a room code and action thus sending it to main server to wait and hear back a response.
+-serverM.cpp : our main server file which handles communication to both client (TCP) and backend servers (UDP). Most of the logic to queries and login are in this file.
+-ServerS.cpp, ServerD.cpp, ServerU.cpp : these our our backend server files that handle reading the corresponding input files and looking for the query as well as storing the updated database. It will communicate back and forth with the main server through UDP.
+
+e. Exchanged messages:
+
+- client to serverM: - queries are sent as (client type)::(action type)::(roomcode). EXs: N::A::S143 (client type N = not a member is sending a A (availability request) for room S143). N = not a member, M = member, A = availability, R = reserve.
+- Username and password are sent as encryptedUsername,username,encryptedpassword.
+- serverM to client: if a username,password combination is sent to serverM, serverM will reply with success, noUsername, passwordMismatch for client to correctly execute whether or not the client can log in.
+- for passing the status of room query its "No room", "Avail", "Not avail", "Reserve", "No reserve", "No permission"
+
+f. Idiosyncrasies:
+
+- Assume that username is not NULL
+- programs should be closed in this order (main, backendserver, client)
+- All three backend servers should be initiated or serverM won't start to listen from client for login information.
+
+- Some things for grader: additional output were created for checking if availability and reservation were spelled correctly and same as valid room code based on piazza.
+
+g. Reused code:
+
+- sendUDP from Beej (broadcaster.c file)
+- receiveUDP from Beej (listener.c file)
+- setup_tcp_server_socket (chapter 6 beej)
+- handle_tcp_client_connection (how to use fork from https://www.geeksforgeeks.org/create-processes-with-fork-in-cpp/)
+- main() in serverM, select portion is from selectserver.c in beej
